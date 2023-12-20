@@ -1,0 +1,51 @@
+.card {
+  font-weight: bold;
+  padding: 1em;
+
+  box-shadow: 0 1px 5px #ffffff99;
+
+  border-radius: 10px;
+  background-size: cover;
+
+  position: relative;
+  max-height: 480px;
+  transition-duration: 300ms;
+  transition-property: transform, box-shadow;
+  transition-timing-function: ease-out;
+  transform: rotate3d(0);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 0.5rem 0.5rem;
+  text-align: justify;
+  word-wrap: break-word;
+  color: var(--color);
+  overflow: hidden;
+  
+  max-height: 480px;
+  min-height: 0;
+  grid-row-end: span 1;
+}
+
+.card:hover {
+  transition-duration: 150ms;
+  box-shadow: 0 5px 20px 5px #ffffff44;
+}
+
+.card .glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+
+  border-radius: 10px;
+  background-image: radial-gradient(circle at 50% -20%, #ffffff22, #0000000f);
+}
+
+.content{
+  z-index: 1;
+}
+
+

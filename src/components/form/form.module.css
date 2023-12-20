@@ -1,0 +1,6 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    border-radius: 10px;
+}
