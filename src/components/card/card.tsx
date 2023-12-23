@@ -8,12 +8,17 @@ import {
   useVisibleTask$,
 } from "@builder.io/qwik";
 import styles from "./card.css?inline";
-type CardProps = { style?: CSSProperties; hoverEffect?: "3d" | "glow", onClick$?: QRL<(ev: MouseEvent) => void>};
+type CardProps = {
+  style?: CSSProperties;
+  hoverEffect?: "3d" | "glow";
+  gridSpan?: number;
+  onClick$?: QRL<(ev: MouseEvent) => void>;
+};
 export const Card = component$<CardProps>(
-  ({style,hoverEffect,onClick$}) => {
+  ({ style, hoverEffect, onClick$, gridSpan }) => {
     useStyles$(styles);
     const $card = useSignal<HTMLDivElement>();
-    const mouseIn = useSignal(false)
+    const mouseIn = useSignal(false);
 
     useVisibleTask$(({ cleanup }) => {
       if ($card.value && hoverEffect && hoverEffect == "3d") {
@@ -51,49 +56,48 @@ export const Card = component$<CardProps>(
                 #0000000f
               )
             `;
-    
         };
         const mouseEnter = () => {
-          mouseIn.value =  true
+          mouseIn.value = true;
           bounds = $card.value!.getBoundingClientRect();
           document.addEventListener("mousemove", rotateToMouse);
-         
         };
 
         const mouseLeave = () => {
-          mouseIn.value = false
+          mouseIn.value = false;
           document.removeEventListener("mousemove", rotateToMouse);
           $card.value!.style.transform = "";
-          
         };
 
         $card.value!.addEventListener("mouseenter", mouseEnter);
         $card.value!.addEventListener("mouseleave", mouseLeave);
 
-        const computeAll = () => {
-            console.log($card.value!.clientHeight)
-          if (
-            $card.value!.scrollHeight! > 240 &&
-            $card.value!.scrollHeight! <= 240
-          ) {
-            $card.value!.style.gridRowEnd = 'span 2'
-            $card.value!.style.overflowY = 'auto'
-          } else if (
-            $card.value!.scrollHeight! > 480 &&
-            $card.value!.scrollHeight! <= 720
-          ) {
-            $card.value!.style.gridRowEnd = 'span 3'
-            $card.value!.style.overflowY = 'auto'
-          } else if ($card.value!.scrollHeight! > 720) {
-            $card.value!.style.gridRowEnd = 'span 4'
-            $card.value!.style.overflowY = 'auto'
-          } else {
-            $card.value!.style.gridRowEnd = 'span 1'
-            $card.value!.style.overflowY = 'hidden'
-          }
-        };
+        if (gridSpan) {
+          const computeAll = () => {
+            console.log($card.value!.clientHeight);
+            if (
+              $card.value!.scrollHeight! > gridSpan &&
+              $card.value!.scrollHeight! <= gridSpan * 2
+            ) {
+              $card.value!.style.gridRowEnd = "span 2";
+              $card.value!.style.overflowY = "auto";
+            } else if (
+              $card.value!.scrollHeight! > gridSpan * 2 &&
+              $card.value!.scrollHeight! <= gridSpan * 3
+            ) {
+              $card.value!.style.gridRowEnd = "span 3";
+              $card.value!.style.overflowY = "auto";
+            } else if ($card.value!.scrollHeight! > gridSpan * 3) {
+              $card.value!.style.gridRowEnd = "span 4";
+              $card.value!.style.overflowY = "auto";
+            } else {
+              $card.value!.style.gridRowEnd = "span 1";
+              $card.value!.style.overflowY = "hidden";
+            }
+          };
+          computeAll();
+        }
 
-        computeAll()
         cleanup(() => {
           $card.value!.removeEventListener("mouseenter", mouseEnter);
           $card.value!.removeEventListener("mouseleave", mouseLeave);
@@ -101,10 +105,20 @@ export const Card = component$<CardProps>(
       }
     });
     return (
-      <div ref={$card} class={['card']} style={{...style, cursor: onClick$ ? 'pointer' : 'initial'}} onClick$={(ev: MouseEvent) => {if(onClick$) onClick$(ev)}}>
-        {hoverEffect && hoverEffect == "3d" && mouseIn.value && <div class="card glow" />}
-        <div class='content'><Slot /></div>
-        
+      <div
+        ref={$card}
+        class={["card"]}
+        style={{ ...style, cursor: onClick$ ? "pointer" : "initial" }}
+        onClick$={(ev: MouseEvent) => {
+          if (onClick$) onClick$(ev);
+        }}
+      >
+        {hoverEffect && hoverEffect == "3d" && mouseIn.value && (
+          <div class="card glow" />
+        )}
+        <div class="content">
+          <Slot />
+        </div>
       </div>
     );
   }

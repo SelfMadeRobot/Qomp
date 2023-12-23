@@ -2,10 +2,11 @@
   font-weight: bold;
   padding: 1em;
 
-  box-shadow: 0 1px 5px #ffffff99;
+  box-shadow: 0 0px 4px #ffffff99;
 
   border-radius: 10px;
   background-size: cover;
+  border: none;
 
   position: relative;
   max-height: 480px;
@@ -30,7 +31,7 @@
 
 .card:hover {
   transition-duration: 150ms;
-  box-shadow: 0 5px 20px 5px #ffffff44;
+  box-shadow: 0 2px 15px 5px #ffffff44;
 }
 
 .card .glow {
