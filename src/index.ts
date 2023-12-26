@@ -1,3 +1,4 @@
+export { Accordeon } from "./components/accordeon/accordeon";
 export { Logo } from "./components/logo/logo";
 export { Counter } from "./components/counter/counter";
 export { Card } from "./components/card/card";

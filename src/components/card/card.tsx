@@ -80,19 +80,16 @@ export const Card = component$<CardProps>(
               $card.value!.scrollHeight! <= gridSpan * 2
             ) {
               $card.value!.style.gridRowEnd = "span 2";
-              $card.value!.style.overflowY = "auto";
             } else if (
               $card.value!.scrollHeight! > gridSpan * 2 &&
               $card.value!.scrollHeight! <= gridSpan * 3
             ) {
               $card.value!.style.gridRowEnd = "span 3";
-              $card.value!.style.overflowY = "auto";
             } else if ($card.value!.scrollHeight! > gridSpan * 3) {
               $card.value!.style.gridRowEnd = "span 4";
-              $card.value!.style.overflowY = "auto";
+
             } else {
               $card.value!.style.gridRowEnd = "span 1";
-              $card.value!.style.overflowY = "hidden";
             }
           };
           computeAll();
